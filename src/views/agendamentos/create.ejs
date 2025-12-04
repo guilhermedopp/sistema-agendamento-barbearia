@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Agendamento</title>
+    <style>body { font-family: sans-serif; padding: 20px; max-width: 500px; }</style>
+</head>
+<body>
+    <h2>📅 Agendar Horário</h2>
+    <form action="/agendamentos" method="POST">
+        
+        <label>Escolha o Profissional:</label><br>
+        <select name="profissionalId" required style="width: 100%; padding: 8px;">
+            <% profissionais.forEach(p => { %>
+                <option value="<%= p.id %>"><%= p.nome %> (<%= p.especialidade %>)</option>
+            <% }) %>
+        </select>
+        <br><br>
+
+        <label>Escolha o Serviço:</label><br>
+        <select name="servicoId" required style="width: 100%; padding: 8px;">
+            <% servicos.forEach(s => { %>
+                <option value="<%= s.id %>"><%= s.nome %> - R$<%= s.preco %></option>
+            <% }) %>
+        </select>
+        <br><br>
+
+        <label>Data:</label>
+        <input type="date" name="data" required>
+        
+        <label>Hora:</label>
+        <input type="time" name="hora" required>
+        <br><br>
+
+        <button type="submit" style="padding: 10px 20px; background: #007bff; color: white; border: none;">Confirmar Agendamento</button>
+    </form>
+</body>
+</html>
