@@ -25,6 +25,7 @@ src/
 ├── routes/       # Definição das rotas da aplicação
 ├── views/        # Templates EJS (Interface do usuário)
 └── app.js        # Arquivo principal da aplicação
+```
 ## 📦 Como rodar o projeto
 
 ### Pré-requisitos
