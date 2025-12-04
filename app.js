@@ -2,22 +2,27 @@ const express = require('express');
 const app = express();
 const path = require('path');
 require('dotenv').config();
-
 // Importa conexão com o banco
 const connection = require('./src/config/database');
 
 const Profissional = require('./src/models/Profissional');
+const Servico = require('./src/models/Servico');
+const Agendamento = require('./src/models/Agendamento');
 
 const profissionaisRoutes = require('./src/routes/profissionaisRoutes');
+const servicosRoutes = require('./src/routes/ServicosRoutes');
+const agendamentosRoutes = require('./src/routes/agendamentoRoutes');
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'src/views'));
+app.set('views', path.join(__dirname, '/src', '/views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/profissionais', profissionaisRoutes);
+app.use('/servicos', servicosRoutes);
+app.use('/agendamentos', agendamentosRoutes);
 
 app.get('/', (req, res) => {
     res.render('index');

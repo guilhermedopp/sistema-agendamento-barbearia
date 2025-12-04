@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Serviços - Barbearia</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn { padding: 8px 12px; background: #28a745; color: white; text-decoration: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <h1>✂️ Tabela de Serviços</h1>
+    <a href="/">🏠 Voltar para Home</a>
+    <a href="/servicos/criar" class="btn" style="float: right;">＋ Novo Serviço</a>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Duração</th>
+                <th>Preço</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (servicos.length > 0) { %>
+                <% servicos.forEach(servico => { %>
+                    <tr>
+                        <td><%= servico.nome %></td>
+                        <td><%= servico.duracaoMin %> min</td>
+                        <td>R$ <%= servico.preco %></td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr><td colspan="3">Nenhum serviço cadastrado.</td></tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>

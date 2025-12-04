@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Serviço</title>
+    <style>body { font-family: sans-serif; padding: 20px; max-width: 500px; }</style>
+</head>
+<body>
+    <h2>Cadastrar Serviço</h2>
+    <form action="/servicos" method="POST">
+        <p>
+            <label>Nome do Serviço:</label><br>
+            <input type="text" name="nome" placeholder="Ex: Corte Navalhado" required style="width: 100%">
+        </p>
+        <p>
+            <label>Duração (minutos):</label><br>
+            <input type="number" name="duracaoMin" placeholder="Ex: 45" required style="width: 100%">
+        </p>
+        <p>
+            <label>Preço (R$):</label><br>
+            <input type="number" name="preco" step="0.01" placeholder="Ex: 35.00" required style="width: 100%">
+        </p>
+        <button type="submit">Salvar</button>
+    </form>
+    <br><a href="/servicos">Cancelar</a>
+</body>
+</html>
