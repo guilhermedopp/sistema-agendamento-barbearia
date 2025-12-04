@@ -16,10 +16,15 @@ O projeto foi desenvolvido utilizando as seguintes tecnologias:
 ## 📂 Estrutura do Projeto (MVC)
 
 A estrutura de pastas foi organizada da seguinte forma:
-'''
-src/ ├── config/ # Configurações do banco de dados ├── controllers/ # Lógica de controle (Agendamento, Serviço) ├── models/ # Modelos do banco de dados (Sequelize) ├── routes/ # Definição das rotas da aplicação ├── views/ # Templates EJS (Interface do usuário) └── app.js # Arquivo principal da aplicação
-'''
 
+```bash
+src/
+├── config/       # Configurações do banco de dados
+├── controllers/  # Lógica de controle (Agendamento, Serviço)
+├── models/       # Modelos do banco de dados (Sequelize)
+├── routes/       # Definição das rotas da aplicação
+├── views/        # Templates EJS (Interface do usuário)
+└── app.js        # Arquivo principal da aplicação
 ## 📦 Como rodar o projeto
 
 ### Pré-requisitos
