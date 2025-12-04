@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Profissionais - Barbearia</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn { padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; }
+        .btn-back { background: #6c757d; }
+    </style>
+</head>
+<body>
+
+    <h1>💇‍♂️ Equipe de Profissionais</h1>
+    
+    <a href="/" class="btn btn-back">⬅ Voltar</a>
+    <a href="/profissionais/criar" class="btn">＋ Novo Profissional</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Especialidade</th>
+                <th>Criado em</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (profissionais.length > 0) { %>
+                <% profissionais.forEach(profissional => { %>
+                    <tr>
+                        <td><%= profissional.id %></td>
+                        <td><strong><%= profissional.nome %></strong></td>
+                        <td><%= profissional.especialidade %></td>
+                        <td><%= new Date(profissional.createdAt).toLocaleDateString('pt-BR') %></td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4" style="text-align: center;">Nenhum profissional cadastrado ainda.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+</body>
+</html>
