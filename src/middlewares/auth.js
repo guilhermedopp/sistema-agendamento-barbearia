@@ -10,6 +10,9 @@ const auth = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.usuarioId = decoded.id; // Salva o ID do usuário
+        req.usuarioAdmin = decoded.isAdmin;
+        res.locals.isAdmin = decoded.idAdmin;
+        
         next();
     } catch (err) {
         res.clearCookie('jwt');

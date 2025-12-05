@@ -18,6 +18,10 @@ const Usuario = connection.define('Usuario', {
     senha: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     hooks: {
