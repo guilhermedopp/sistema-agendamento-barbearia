@@ -2,11 +2,28 @@ const Agendamento = require('../models/Agendamento');
 const Profissional = require('../models/Profissional');
 const Servico = require('../models/Servico');
 const { Op } = require('sequelize'); // Necessário para filtros avançados
+const { validationResult } = require('express-validator'); // Importação para capturar erros
 
 module.exports = {
     // Lista agendamentos por data
     async index(req, res) {
+        // Lógica de Filtros
+        const { data, status } = req.query;
+        const where = {};
+
+        if (status) {
+            where.status = status;
+        }
+
+        if (data) {
+            // Filtra o dia inteiro (das 00:00 até 23:59)
+            const inicioDia = new Date(`${data}T00:00:00`);
+            const fimDia = new Date(`${data}T23:59:59`);
+            where.dataHora = { [Op.between]: [inicioDia, fimDia] };
+        }
+
         const agendamentos = await Agendamento.findAll({
+            where: where, // Aplica o filtro aqui
             include: [Profissional, Servico],
             order: [['dataHora', 'ASC']] // Mostra os mais recentes primeiro
         });
@@ -17,17 +34,31 @@ module.exports = {
     async create(req, res) {
         const profissionais = await Profissional.findAll();
         const servicos = await Servico.findAll();
-        return res.render('agendamentos/create', { profissionais, servicos });
+        return res.render('agendamentos/create', { profissionais, servicos, erros: [], dados: {} });
     },
 
     // Salva com validações inteligentes
     async store(req, res) {
+        // Verifica se houve erro na validação da Rota
+        const errosValidation = validationResult(req);
+        if (!errosValidation.isEmpty()) {
+            // Se tiver erro, recarrega a tela com as mensagens
+            const profissionais = await Profissional.findAll();
+            const servicos = await Servico.findAll();
+            return res.render('agendamentos/create', { 
+                profissionais, 
+                servicos, 
+                erros: errosValidation.array(),
+                dados: req.body 
+            });
+        }
+
         const { profissionalId, servicoId, data, hora } = req.body;
         
         // Cria o objeto Data do Javascript com o que veio do formulário
         const inicioAgendamento = new Date(`${data}T${hora}`);
 
-        // Regra 1: Não permite agendamento no passado
+        // Não permite agendamento no passado
         if (inicioAgendamento < new Date()) {
             return res.send(`
                 <h2>Erro: Data Inválida</h2>
@@ -39,7 +70,7 @@ module.exports = {
         // Quanto tempo dura o serviço novo
         const servicoNovo = await Servico.findByPk(servicoId);
 
-        // --- PROTEÇÃO: Se o serviço não for encontrado, para aqui ---
+        // Se o serviço não for encontrado, para aqui
         if (!servicoNovo) {
             return res.send("Erro: Serviço não encontrado ou inválido!");
         }

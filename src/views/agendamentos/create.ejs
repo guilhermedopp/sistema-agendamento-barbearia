@@ -3,36 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <title>Novo Agendamento</title>
-    <style>body { font-family: sans-serif; padding: 20px; max-width: 500px; }</style>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: 0 auto; }
+        .erro-box { background: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border: 1px solid #f5c6cb; border-radius: 5px; }
+        input, select { margin-bottom: 15px; box-sizing: border-box; }
+    </style>
 </head>
 <body>
     <h2>📅 Agendar Horário</h2>
+
+    <% if (typeof erros !== 'undefined' && erros.length > 0) { %>
+        <div class="erro-box">
+            <ul style="margin: 0; padding-left: 20px;">
+                <% erros.forEach(function(erro) { %>
+                    <li><%= erro.msg %></li>
+                <% }) %>
+            </ul>
+        </div>
+    <% } %>
+
     <form action="/agendamentos" method="POST">
         
+        <label>Nome do Cliente:</label><br>
+        <input type="text" name="clienteNome" required style="width: 100%; padding: 8px;"
+               value="<%= (typeof dados !== 'undefined' && dados.clienteNome) ? dados.clienteNome : '' %>">
+        <br>
+
         <label>Escolha o Profissional:</label><br>
         <select name="profissionalId" required style="width: 100%; padding: 8px;">
+            <option value="">Selecione...</option>
             <% profissionais.forEach(p => { %>
-                <option value="<%= p.id %>"><%= p.nome %> (<%= p.especialidade %>)</option>
+                <option value="<%= p.id %>" <%= (typeof dados !== 'undefined' && dados.profissionalId == p.id) ? 'selected' : '' %>>
+                    <%= p.nome %> (<%= p.especialidade %>)
+                </option>
             <% }) %>
         </select>
-        <br><br>
+        <br>
 
         <label>Escolha o Serviço:</label><br>
         <select name="servicoId" required style="width: 100%; padding: 8px;">
+            <option value="">Selecione...</option>
             <% servicos.forEach(s => { %>
-                <option value="<%= s.id %>"><%= s.nome %> - R$<%= s.preco %></option>
+                <option value="<%= s.id %>" <%= (typeof dados !== 'undefined' && dados.servicoId == s.id) ? 'selected' : '' %>>
+                    <%= s.nome %> - R$<%= s.preco %>
+                </option>
             <% }) %>
         </select>
-        <br><br>
+        <br>
 
         <label>Data:</label>
-        <input type="date" name="data" required>
-        
-        <label>Hora:</label>
-        <input type="time" name="hora" required>
-        <br><br>
+        <input type="date" name="data" required style="width: 100%; padding: 8px;"
+               value="<%= (typeof dados !== 'undefined' && dados.data) ? dados.data : '' %>">
+        <br>
 
-        <button type="submit" style="padding: 10px 20px; background: #007bff; color: white; border: none;">Confirmar Agendamento</button>
+        <label>Hora:</label>
+        <input type="time" name="hora" required style="width: 100%; padding: 8px;"
+               value="<%= (typeof dados !== 'undefined' && dados.hora) ? dados.hora : '' %>">
+        <br>
+
+        <button type="submit" style="padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; width: 100%;">
+            Confirmar Agendamento
+        </button>
+        
+        <br><br>
+        <a href="/agendamentos" style="text-decoration: none; color: #666;">← Voltar</a>
     </form>
 </body>
 </html>

@@ -5,6 +5,20 @@
     <title>Agenda</title>
     <style>
         body { font-family: sans-serif; padding: 20px; }
+        
+        /* Estilo da Barra de Filtros */
+        .filtros-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .filtros-box form { display: flex; gap: 10px; align-items: center; }
+
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
         th { background-color: #f4f4f4; }
@@ -15,14 +29,45 @@
         .status-cancelado { background-color: #f8d7da; color: #721c24; padding: 5px; border-radius: 4px; font-weight: bold; }
 
         .btn-action { cursor: pointer; border: none; padding: 5px 10px; border-radius: 4px; color: white; margin: 0 2px; }
-        .btn-check { background-color: #28a745; } /* Verde */
-        .btn-cancel { background-color: #dc3545; } /* Vermelho */
+        .btn-check { background-color: #28a745; }
+        .btn-cancel { background-color: #dc3545; }
+        .btn-filter { background-color: #007bff; color: white; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer; }
+        .btn-clear { text-decoration: none; color: #666; font-size: 0.9em; }
     </style>
 </head>
 <body>
-    <h1>📅 Agenda da Barbearia</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>📅 Agenda da Barbearia</h1>
+        <div>
+            <span>Bem-vindo!</span> | 
+            <a href="/logout" style="color: red;">Sair (Logout)</a>
+        </div>
+    </div>
+
     <a href="/">🏠 Home</a> | <a href="/agendamentos/criar">＋ Novo Agendamento</a>
     
+    <div class="filtros-box">
+        <strong>Filtrar por:</strong>
+        <form action="/agendamentos" method="GET">
+            <label>
+                Data: <input type="date" name="data">
+            </label>
+            
+            <label>
+                Status:
+                <select name="status">
+                    <option value="">Todos</option>
+                    <option value="agendado">Agendado</option>
+                    <option value="realizado">Realizado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+            </label>
+
+            <button type="submit" class="btn-filter">Buscar</button>
+            <a href="/agendamentos" class="btn-clear">Limpar filtros</a>
+        </form>
+    </div>
+
     <table>
         <thead>
             <tr>
@@ -35,10 +80,18 @@
             </tr>
         </thead>
         <tbody>
+            <% if (agendamentos.length === 0) { %>
+                <tr>
+                    <td colspan="6" style="color: #666; padding: 20px;">
+                        Nenhum agendamento encontrado.
+                    </td>
+                </tr>
+            <% } %>
+
             <% agendamentos.forEach(a => { %>
                 <tr>
-                    <td><%= new Date(a.dataHora).toLocaleDateString('pt-BR') %></td>
-                    <td><%= new Date(a.dataHora).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}) %></td>
+                    <td><%= new Date(a.dataHora).toLocaleDateString('pt-BR', {timeZone: 'UTC'}) %></td>
+                    <td><%= new Date(a.dataHora).toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit', timeZone: 'UTC'}) %></td>
                     
                     <td><%= a.Profissional ? a.Profissional.nome : 'N/A' %></td>
                     <td><%= a.Servico ? a.Servico.nome : 'N/A' %></td>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo Usuário - Sistema Agendamento</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f4f4; }
+        .card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 300px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; }
+        .link { text-align: center; margin-top: 10px; display: block; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="text-align: center;">Criar Conta</h2>
+        
+        <form action="/registrar" method="POST">
+            <label>Nome Completo</label>
+            <input type="text" name="nome" required placeholder="Ex: Administrador">
+
+            <label>E-mail</label>
+            <input type="email" name="email" required placeholder="admin@barbearia.com">
+            
+            <label>Senha</label>
+            <input type="password" name="senha" required placeholder="******">
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <a href="/login" class="link">Já tenho conta (Login)</a>
+    </div>
+</body>
+</html>
