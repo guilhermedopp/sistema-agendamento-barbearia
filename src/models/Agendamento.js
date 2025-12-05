@@ -4,6 +4,7 @@ const connection = require('../config/database');
 // Vincula os outros models
 const Profissional = require('../models/Profissional');
 const Servico = require('../models/Servico');
+const Usuario = require('../models/Usuario');
 
 const Agendamento = connection.define('Agendamento', {
     dataHora: {
@@ -14,6 +15,10 @@ const Agendamento = connection.define('Agendamento', {
         type: DataTypes.ENUM('agendado', 'cancelado', 'realizado'),
         defaultValue: 'agendado',
         allowNull: false
+    },
+    clienteNome: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 });
 
@@ -28,5 +33,9 @@ Profissional.hasMany(Agendamento);
 Agendamento.belongsTo(Servico);
 // Um serviço tem muitos agendamentos
 Servico.hasMany(Agendamento);
+
+// Relacionamento com Usuário (Cliente)
+Agendamento.belongsTo(Usuario);
+Usuario.hasMany(Agendamento);
 
 module.exports = Agendamento;

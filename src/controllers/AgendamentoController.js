@@ -11,6 +11,12 @@ module.exports = {
         const { data, status } = req.query;
         const where = {};
 
+        // Se não for admin, só vê os próprios agendamentos
+        if (!req.usuarioAdmin) {
+            where.UsuarioId = req.usuarioId;
+        }
+        // ----------------------------
+
         if (status) {
             where.status = status;
         }
@@ -113,7 +119,11 @@ module.exports = {
             ProfissionalId: profissionalId,
             ServicoId: servicoId,
             dataHora: inicioAgendamento,
-            status: 'agendado'
+            status: 'agendado',
+            // Salva o nome digitado OU o nome do usuário logado
+            clienteNome: req.body.clienteNome || req.userNome, 
+            // Vincula o agendamento ao usuário logado (Cliente)
+            UsuarioId: req.usuarioId 
         });
 
         return res.redirect('/agendamentos');
@@ -122,6 +132,7 @@ module.exports = {
     // Atualiza status para cancelado
     async cancelar(req, res) {
         const { id } = req.params;
+        // Se não for admin, só pode cancelar se for dono
         await Agendamento.update({ status: 'cancelado' }, { where: { id } });
         return res.redirect('/agendamentos');
     },

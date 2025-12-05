@@ -9,9 +9,13 @@ const auth = (req, res, next) => {
     
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
         req.usuarioId = decoded.id; // Salva o ID do usuário
-        req.usuarioAdmin = decoded.isAdmin;
-        res.locals.isAdmin = decoded.idAdmin;
+        req.userNome = decoded.nome; // Salva o Nome do usuário para usar no controller
+        req.usuarioAdmin = decoded.isAdmin; // Salva se é admin na requisição
+        
+        // Disponibiliza a variável isAdmin para todos os arquivos EJS
+        res.locals.isAdmin = decoded.isAdmin;
         
         next();
     } catch (err) {
