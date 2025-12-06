@@ -1,0 +1,27 @@
+/* public/css/style.css */
+
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #fff; color: #333; }
+
+/* Botões Gerais */
+.btn { text-decoration: none; border-radius: 5px; cursor: pointer; display: inline-block; font-weight: bold; transition: 0.2s; border: none; }
+.btn:hover { opacity: 0.9; }
+
+.btn-primary { background-color: #007bff; color: white; } /* Azul */
+.btn-success { background-color: #28a745; color: white; } /* Verde */
+.btn-danger  { background-color: #dc3545; color: white; } /* Vermelho */
+.btn-secondary { background-color: #6c757d; color: white; } /* Cinza */
+
+/* Tabelas */
+table { width: 100%; border-collapse: collapse; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+th { background-color: #f8f9fa; color: #333; }
+
+/* Formulários */
+input, select { width: 100%; padding: 10px; margin: 8px 0; display: inline-block; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+
+/* Alertas de Erro */
+.alerta { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; }
+.erro { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+
+/* Badges */
+.badge-admin { background-color: #343a40; color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.75em; }

@@ -39,5 +39,21 @@ module.exports = {
             console.error(error);
             return res.status(500).send("Erro ao cadastrar profissional");
         }
+    },
+
+    // POST /profissionais/:id/deletar
+    async destroy(req, res) {
+        try {
+            const { id } = req.params;
+
+            // Apaga do banco pelo ID
+            await Profissional.destroy({ where: { id } });
+
+            // Volta pra lista principal
+            return res.redirect('/profissionais');
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send("Erro ao deletar profissional");
+        }
     }
 };

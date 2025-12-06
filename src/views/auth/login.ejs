@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sistema Agendamento</title>
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Pequeno ajuste para centralizar os links novos */
+        .opcoes-extras {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .opcoes-extras a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .opcoes-extras a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="container-login">
@@ -27,6 +42,14 @@
 
             <button type="submit">Entrar</button>
         </form>
+
+        <div class="opcoes-extras">
+            <p>Ainda não tem cadastro? <br>
+            <a href="/registrar" style="font-weight: bold;">Criar uma conta agora</a></p>
+            
+            <br>
+            <a href="/" style="color: #666;">← Voltar para Home</a>
+        </div>
     </div>
 </body>
 </html>

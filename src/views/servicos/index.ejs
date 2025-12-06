@@ -3,18 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <title>Serviços - Barbearia</title>
+    <link rel="stylesheet" href="/css/style.css">
     <style>
         body { font-family: sans-serif; padding: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .btn { padding: 8px 12px; background: #28a745; color: white; text-decoration: none; border-radius: 4px; }
+        
+        /* Botões */
+        .btn { padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; }
+        .btn-back { background: #6c757d; } /* Cinza */
+        
+        /* Botão de Excluir */
+        .btn-del { 
+            background: #dc3545; 
+            color: white; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 4px; 
+            cursor: pointer;
+        }
+        .btn-del:hover { background: #c82333; }
     </style>
 </head>
 <body>
-    <h1>✂️ Tabela de Serviços</h1>
-    <a href="/">🏠 Voltar para Home</a>
-    <a href="/servicos/criar" class="btn" style="float: right;">＋ Novo Serviço</a>
+
+    <h1>✂️ Catálogo de Serviços</h1>
+    
+    <a href="/agendamentos" class="btn btn-back">⬅ Voltar para Agenda</a>
+    <a href="/servicos/criar" class="btn">＋ Novo Serviço</a>
     
     <table>
         <thead>
@@ -22,7 +39,7 @@
                 <th>Nome</th>
                 <th>Duração</th>
                 <th>Preço</th>
-            </tr>
+                <th>Ações</th> </tr>
         </thead>
         <tbody>
             <% if (servicos.length > 0) { %>
@@ -31,10 +48,20 @@
                         <td><%= servico.nome %></td>
                         <td><%= servico.duracaoMin %> min</td>
                         <td>R$ <%= servico.preco %></td>
+                        
+                        <td>
+                            <form action="/servicos/<%= servico.id %>/deletar" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
+                                <button type="submit" class="btn-del">Excluir</button>
+                            </form>
+                        </td>
                     </tr>
                 <% }) %>
             <% } else { %>
-                <tr><td colspan="3">Nenhum serviço cadastrado.</td></tr>
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 20px; color: #666;">
+                        Nenhum serviço cadastrado ainda.
+                    </td>
+                </tr>
             <% } %>
         </tbody>
     </table>

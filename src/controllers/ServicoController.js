@@ -25,14 +25,32 @@ module.exports = {
 
             // Validação
             if (!nome || !duracaoMin || !preco) {
-                return res.send("Erro: Todos os campos devem ser preenchidos");
+                return res.send("Erro: Todos os campos devem ser preenchidos <a href='/servicos/criar'>Voltar</a>");
             }
 
             await Servico.create({ nome, duracaoMin, preco });
+            
+            // Volta pra lista
             return res.redirect('/servicos');
         } catch (error) {
             console.error(error);
             return res.status(500).send("Erro ao salvar serviço");
+        }
+    },
+
+    // POST /servicos/:id/deletar
+    async destroy(req, res) {
+        try {
+            const { id } = req.params;
+
+            // Apaga do banco pelo ID
+            await Servico.destroy({ where: { id } });
+
+            // Volta pra lista
+            return res.redirect('/servicos');
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send("Erro ao deletar serviço");
         }
     }
 };
