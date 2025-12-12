@@ -6,8 +6,7 @@ const ServicoController = require('../controllers/ServicoController');
 const auth = require('../middlewares/auth');
 const adminAuth = require('../middlewares/adminAuth');
 
-router.get('/', auth, adminAuth, ServicoController.index);
-router.get('/gerenciar', auth, adminAuth, ServicoController.index);
+router.get('/', auth, ServicoController.index);
 router.get('/criar', auth, adminAuth, ServicoController.create);
 
 router.post('/', auth, adminAuth, ServicoController.store);

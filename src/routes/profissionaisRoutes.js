@@ -10,12 +10,10 @@ const adminAuth = require('../middlewares/adminAuth');
 
 // Rotas protegidas (apenas Admin logado pode gerenciar)
 
-router.get('/', auth, adminAuth, ProfissionalController.index);
-
+router.get('/', auth, ProfissionalController.index);
 router.get('/criar', auth, adminAuth, ProfissionalController.create);
 
 router.post('/', auth, adminAuth, ProfissionalController.store);
-
 // Rota para deletar
 router.post('/:id/deletar', auth, adminAuth, ProfissionalController.destroy);
 

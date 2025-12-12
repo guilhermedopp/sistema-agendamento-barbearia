@@ -29,7 +29,10 @@
     <h1>💇‍♂️ Equipe de Profissionais</h1>
     
     <a href="/agendamentos" class="btn btn-back">⬅ Voltar para Agenda</a>
-    <a href="/profissionais/criar" class="btn">＋ Novo Profissional</a>
+
+    <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+        <a href="/profissionais/criar" class="btn">＋ Novo Profissional</a>
+    <% } %>
 
     <table>
         <thead>
@@ -38,7 +41,11 @@
                 <th>Nome</th>
                 <th>Especialidade</th>
                 <th>Criado em</th>
-                <th>Ações</th> </tr>
+                
+                <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+                    <th>Ações</th> 
+                <% } %>
+            </tr>
         </thead>
         <tbody>
             <% if (profissionais.length > 0) { %>
@@ -49,16 +56,20 @@
                         <td><%= profissional.especialidade %></td>
                         <td><%= new Date(profissional.createdAt).toLocaleDateString('pt-BR') %></td>
                         
-                        <td>
-                            <form action="/profissionais/<%= profissional.id %>/deletar" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este profissional?');">
-                                <button type="submit" class="btn-del">Excluir</button>
-                            </form>
-                        </td>
+                        <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+                            <td>
+                                <form action="/profissionais/<%= profissional.id %>/deletar" method="POST" onsubmit="return confirm('Tem certeza que deseja remover este profissional?');">
+                                    <button type="submit" class="btn-del">Excluir</button>
+                                </form>
+                            </td>
+                        <% } %>
                     </tr>
                 <% }) %>
             <% } else { %>
                 <tr>
-                    <td colspan="5" style="text-align: center;">Nenhum profissional cadastrado ainda.</td>
+                    <td colspan="<%= (typeof isAdmin !== 'undefined' && isAdmin) ? 5 : 4 %>" style="text-align: center;">
+                        Nenhum profissional cadastrado ainda.
+                    </td>
                 </tr>
             <% } %>
         </tbody>
