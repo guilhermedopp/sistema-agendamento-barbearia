@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Serviços - Barbearia</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        
+        /* Botões */
+        .btn { padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; }
+        .btn-back { background: #6c757d; } /* Cinza */
+        
+        /* Botão de Excluir */
+        .btn-del { 
+            background: #dc3545; 
+            color: white; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 4px; 
+            cursor: pointer;
+        }
+        .btn-del:hover { background: #c82333; }
+
+        /* Estilo simples para o botão editar caso o CSS global falhe */
+        .btn-edit {
+            background-color: #f39c12;
+            color: white;
+            padding: 5px 10px; 
+            border-radius: 4px; 
+            text-decoration: none;
+            font-size: 13.33px;
+        }
+        .btn-edit:hover { background-color: #e67e22; }
+    </style>
+</head>
+<body>
+
+    <h1>✂️ Catálogo de Serviços</h1>
+    
+    <a href="/agendamentos" class="btn btn-back">⬅ Voltar para Agenda</a>
+
+    <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+        <a href="/servicos/criar" class="btn">＋ Novo Serviço</a>
+    <% } %>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Duração</th>
+                <th>Preço</th>
+                
+                <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+                    <th style="text-align: center;">Ações</th> 
+                <% } %>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (servicos.length > 0) { %>
+                <% servicos.forEach(servico => { %>
+                    <tr>
+                        <td><%= servico.nome %></td>
+                        <td><%= servico.duracaoMin %> min</td>
+                        <td>R$ <%= servico.preco %></td>
+                        
+                        <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
+                            <td style="display: flex; gap: 5px; justify-content: center;">
+                                
+                                <a href="/servicos/<%= servico.id %>/editar" class="btn-edit">Editar</a>
+
+                                <form action="/servicos/<%= servico.id %>/deletar" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
+                                    <button type="submit" class="btn-del">Excluir</button>
+                                </form>
+                            </td>
+                        <% } %>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="<%= (typeof isAdmin !== 'undefined' && isAdmin) ? 4 : 3 %>" style="text-align: center; padding: 20px; color: #666;">
+                        Nenhum serviço cadastrado ainda.
+                    </td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</body>
+</html>

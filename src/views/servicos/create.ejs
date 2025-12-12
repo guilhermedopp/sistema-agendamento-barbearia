@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Novo Serviço</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+        
+        form { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        label { font-weight: bold; margin-bottom: 5px; }
+        input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; }
+        
+        /* Botão Salvar (Verde) */
+        button { 
+            padding: 10px; 
+            background: #28a745; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-size: 16px; 
+            border-radius: 4px; 
+            margin-top: 10px;
+        }
+        button:hover { background: #218838; }
+        
+        .titulo { text-align: center; color: #333; }
+        
+        /* Link Voltar */
+        .btn-cancel { 
+            display: block; 
+            text-align: center; 
+            margin-top: 15px; 
+            color: #6c757d; 
+            text-decoration: none; 
+            font-size: 0.9em;
+        }
+        .btn-cancel:hover { text-decoration: underline; color: #333; }
+    </style>
+</head>
+<body>
+
+    <h2 class="titulo">Cadastrar Novo Serviço</h2>
+
+    <form action="/servicos" method="POST">
+        <label>Nome do Serviço:</label>
+        <input type="text" name="nome" placeholder="Ex: Corte Navalhado" required>
+
+        <label>Duração (minutos):</label>
+        <input type="number" name="duracaoMin" placeholder="Ex: 45" required>
+
+        <label>Preço (R$):</label>
+        <input type="number" name="preco" step="0.01" placeholder="Ex: 35.00" required>
+
+        <button type="submit">Salvar Serviço</button>
+    </form>
+    
+    <a href="/servicos" class="btn-cancel">Cancelar e Voltar</a>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema Agendamento</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Pequeno ajuste para centralizar os links novos */
+        .opcoes-extras {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        .opcoes-extras a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        .opcoes-extras a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-login">
+        <h1>Acesso ao Sistema</h1>
+        
+        <% if (erro) { %>
+            <div class="alerta erro"><%= erro %></div>
+        <% } %>
+
+        <form action="/login" method="POST">
+            <div class="campo">
+                <label for="email">E-mail</label>
+                <input type="email" name="email" id="email" required>
+            </div>
+            
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input type="password" name="senha" id="senha" required>
+            </div>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <div class="opcoes-extras">
+            <p>Ainda não tem cadastro? <br>
+            <a href="/registrar" style="font-weight: bold;">Criar uma conta agora</a></p>
+            
+            <br>
+            <a href="/" style="color: #666;">← Voltar para Home</a>
+        </div>
+    </div>
+</body>
+</html>

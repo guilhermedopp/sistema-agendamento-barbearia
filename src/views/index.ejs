@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbearia System</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Estilo específico para a Home centralizada */
+        body.home-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .hero { text-align: center; margin-bottom: 40px; }
+        .hero h1 { font-size: 3em; margin-bottom: 10px; color: #333; }
+        .hero p { font-size: 1.2em; color: #666; }
+        .menu-inicial { display: flex; gap: 20px; }
+        .btn-lg { padding: 15px 40px; font-size: 1.2em; }
+    </style>
+</head>
+<body class="home-body">
+
+    <div class="hero">
+        <h1>✂️ Barbearia</h1>
+        <p>Agende seu horário com os melhores profissionais.</p>
+    </div>
+
+    <div class="menu-inicial">
+        <a href="/login" class="btn btn-primary btn-lg">Fazer Login</a>
+        <a href="/registrar" class="btn btn-success btn-lg">Criar Conta</a>
+    </div>
+
+    <footer style="margin-top: 50px; color: #888;">
+        <p>Já está logado? <a href="/agendamentos">Ir direto para Agenda</a></p>
+    </footer>
+
+</body>
+</html>

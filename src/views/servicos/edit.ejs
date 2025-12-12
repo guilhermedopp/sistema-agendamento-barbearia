@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Serviço</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container auth-container">
+        <h2 class="text-center mb-20">✏️ Editar Serviço</h2>
+
+        <form action="/servicos/<%= servico.id %>/atualizar" method="POST">
+            <label>Nome do Serviço:</label>
+            <input type="text" name="nome" value="<%= servico.nome %>" required>
+
+            <label>Duração (minutos):</label>
+            <input type="number" name="duracaoMin" value="<%= servico.duracaoMin %>" required>
+
+            <label>Preço (R$):</label>
+            <input type="number" step="0.01" name="preco" value="<%= servico.preco %>" required>
+
+            <button type="submit" class="btn btn-block">💾 Salvar Alterações</button>
+            <a href="/servicos" class="btn btn-back btn-block text-center" style="margin-top: 10px;">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
