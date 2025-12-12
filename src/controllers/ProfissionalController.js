@@ -4,10 +4,7 @@ module.exports = {
     // GET /profissionais
     async index(req, res) {
         try {
-            // Busca tudo no sqlite
             const profissionais = await Profissional.findAll();
-            
-            // Manda os dados pra view profissionais
             return res.render('profissionais/index', { profissionais });
         } catch (error) {
             console.error(error);
@@ -23,17 +20,13 @@ module.exports = {
     // POST /profissionais
     async store(req, res) {
         try {
-            const { nome, especialidade } = req.body;
+            const { nome, especialidade, telefone } = req.body;
 
-            // Validação de nao deixar salvar vazio
             if (!nome || !especialidade) {
-                return res.send("Erro: Todos os campos devem ser preenchidos <a href='/profissionais/criar'>Voltar</a>");
+                return res.send("Erro: Campos obrigatórios vazios <a href='/profissionais/criar'>Voltar</a>");
             }
 
-            // Cria no banco
-            await Profissional.create({ nome, especialidade});
-
-            // Volta pra lista principal
+            await Profissional.create({ nome, especialidade, telefone });
             return res.redirect('/profissionais');
         } catch (error) {
             console.error(error);
@@ -41,15 +34,46 @@ module.exports = {
         }
     },
 
+    // GET /profissionais/:id/editar
+    async edit(req, res) {
+        try {
+            const { id } = req.params;
+            const profissional = await Profissional.findByPk(id);
+
+            if (!profissional) {
+                return res.redirect('/profissionais');
+            }
+
+            return res.render('profissionais/edit', { profissional });
+        } catch (error) {
+            console.log(error);
+            return res.redirect('/profissionais');
+        }
+    },
+
+    // POST /profissionais/:id/atualizar
+    async update(req, res) {
+        try {
+            const { id } = req.params;
+            const { nome, especialidade, telefone } = req.body;
+
+            await Profissional.update(
+                { nome, especialidade, telefone },
+                { where: { id } }
+            );
+
+            return res.redirect('/profissionais');
+        } catch (error) {
+            console.log(error);
+            return res.redirect('/profissionais');
+        }
+    },
+
     // POST /profissionais/:id/deletar
     async destroy(req, res) {
         try {
             const { id } = req.params;
-
-            // Apaga do banco pelo ID
             await Profissional.destroy({ where: { id } });
-
-            // Volta pra lista principal
             return res.redirect('/profissionais');
         } catch (error) {
             console.error(error);

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Profissional</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container auth-container">
+        <h2 class="text-center mb-20">✏️ Editar Profissional</h2>
+
+        <form action="/profissionais/<%= profissional.id %>/atualizar" method="POST">
+            <label>Nome:</label>
+            <input type="text" name="nome" value="<%= profissional.nome %>" required>
+
+            <label>Especialidade:</label>
+            <input type="text" name="especialidade" value="<%= profissional.especialidade %>" required>
+
+            <label>Telefone:</label>
+            <input type="text" name="telefone" value="<%= profissional.telefone %>">
+
+            <button type="submit" class="btn btn-block">💾 Salvar Alterações</button>
+            <a href="/profissionais" class="btn btn-back btn-block text-center" style="margin-top: 10px;">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

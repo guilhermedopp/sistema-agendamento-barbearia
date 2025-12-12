@@ -16,11 +16,13 @@ const validacoes = [
 // Aplica o 'auth' para proteger a listagem e o formulário
 router.get('/', auth, AgendamentoController.index);
 router.get('/criar', auth, AgendamentoController.create);
+router.get('/:id/editar', auth, AgendamentoController.edit);
 
 // Aplica 'auth' e 'validacoes' no salvamento
 router.post('/', auth, validacoes, AgendamentoController.store);
 
 // Rotas pra mudar o status
+router.post('/:id/atualizar', auth, AgendamentoController.update);
 router.post('/:id/cancelar', auth, AgendamentoController.cancelar);
 router.post('/:id/concluir', auth, AgendamentoController.concluir);
 

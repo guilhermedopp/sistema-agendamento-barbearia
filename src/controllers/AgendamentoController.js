@@ -15,8 +15,6 @@ module.exports = {
         if (!req.usuarioAdmin) {
             where.UsuarioId = req.usuarioId;
         }
-        // ----------------------------
-
         if (status) {
             where.status = status;
         }
@@ -36,7 +34,7 @@ module.exports = {
         return res.render('agendamentos/index', { agendamentos });
     },
 
-    // Mostra o formulário
+    // Mostra o formulário de criação
     async create(req, res) {
         const profissionais = await Profissional.findAll();
         const servicos = await Servico.findAll();
@@ -48,7 +46,6 @@ module.exports = {
         // Verifica se houve erro na validação da Rota
         const errosValidation = validationResult(req);
         if (!errosValidation.isEmpty()) {
-            // Se tiver erro, recarrega a tela com as mensagens
             const profissionais = await Profissional.findAll();
             const servicos = await Servico.findAll();
             return res.render('agendamentos/create', { 
@@ -61,10 +58,8 @@ module.exports = {
 
         const { profissionalId, servicoId, data, hora } = req.body;
         
-        // Cria o objeto Data do Javascript com o que veio do formulário
         const inicioAgendamento = new Date(`${data}T${hora}`);
 
-        // Não permite agendamento no passado
         if (inicioAgendamento < new Date()) {
             return res.send(`
                 <h2>Erro: Data Inválida</h2>
@@ -73,34 +68,28 @@ module.exports = {
             `);
         }
         
-        // Quanto tempo dura o serviço novo
         const servicoNovo = await Servico.findByPk(servicoId);
 
-        // Se o serviço não for encontrado, para aqui
         if (!servicoNovo) {
             return res.send("Erro: Serviço não encontrado ou inválido!");
         }
 
-        // Calcula a hora esse serviço vai acabar
         const fimAgendamento = new Date(inicioAgendamento.getTime() + servicoNovo.duracaoMin * 60000);
 
-        // Busca todos os agendamentos desse profissional que não foram cancelados
         const agendamentosDoProfissional = await Agendamento.findAll({
             where: {
                 ProfissionalId: profissionalId,
                 status: 'agendado'
             },
-            include: [Servico] // Verifica o tempo de serviço pelos serviços antigos
+            include: [Servico]
         });
 
-        // Verifica os horários
         let temConflito = false;
         
         agendamentosDoProfissional.forEach(agendamentoAntigo => {
             const inicioVelho = new Date(agendamentoAntigo.dataHora);
             const fimVelho = new Date(inicioVelho.getTime() + agendamentoAntigo.Servico.duracaoMin * 60000);
 
-            // Validação de conflito
             if (inicioAgendamento < fimVelho && fimAgendamento > inicioVelho) {
                 temConflito = true;
             }
@@ -120,19 +109,59 @@ module.exports = {
             ServicoId: servicoId,
             dataHora: inicioAgendamento,
             status: 'agendado',
-            // Salva o nome digitado OU o nome do usuário logado
             clienteNome: req.body.clienteNome || req.userNome, 
-            // Vincula o agendamento ao usuário logado (Cliente)
             UsuarioId: req.usuarioId 
         });
 
         return res.redirect('/agendamentos');
     },
 
+    // Tela de Edição
+    async edit(req, res) {
+        try {
+            const { id } = req.params;
+            const agendamento = await Agendamento.findByPk(id);
+            
+            // Busca listas para preencher os selects
+            const profissionais = await Profissional.findAll();
+            const servicos = await Servico.findAll();
+
+            // Segurança: Só deixa editar se for Admin ou Dono do agendamento
+            if (!req.usuarioAdmin && agendamento.UsuarioId !== req.usuarioId) {
+                return res.redirect('/agendamentos');
+            }
+
+            return res.render('agendamentos/edit', { agendamento, profissionais, servicos });
+        } catch (error) {
+            console.log(error);
+            return res.redirect('/agendamentos');
+        }
+    },
+
+    // Salvar Reagendamento
+    async update(req, res) {
+        try {
+            const { id } = req.params;
+            const { profissionalId, servicoId, data, hora } = req.body;
+            
+            // Junta Data e Hora
+            const dataHora = `${data}T${hora}:00`;
+
+            await Agendamento.update(
+                { ProfissionalId: profissionalId, ServicoId: servicoId, dataHora },
+                { where: { id } }
+            );
+
+            return res.redirect('/agendamentos');
+        } catch (error) {
+            console.log(error);
+            return res.redirect('/agendamentos');
+        }
+    },
+
     // Atualiza status para cancelado
     async cancelar(req, res) {
         const { id } = req.params;
-        // Se não for admin, só pode cancelar se for dono
         await Agendamento.update({ status: 'cancelado' }, { where: { id } });
         return res.redirect('/agendamentos');
     },

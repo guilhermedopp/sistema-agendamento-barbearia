@@ -13,12 +13,12 @@ module.exports = {
         }
     },
 
-    // Mostra o formulário
+    // GET /servicos/criar (Mostra o formulário)
     create(req, res) {
         return res.render('servicos/create');
     },
 
-    // POST /servicos
+    // POST /servicos (Salva novo)
     async store(req, res) {
         try {
             const { nome, duracaoMin, preco } = req.body;
@@ -35,6 +35,41 @@ module.exports = {
         } catch (error) {
             console.error(error);
             return res.status(500).send("Erro ao salvar serviço");
+        }
+    },
+
+    // GET /servicos/:id/editar
+    async edit(req, res) {
+        try {
+            const { id } = req.params;
+            const servico = await Servico.findByPk(id);
+
+            if (!servico) {
+                return res.redirect('/servicos');
+            }
+
+            return res.render('servicos/edit', { servico });
+        } catch (error) {
+            console.log(error);
+            return res.redirect('/servicos');
+        }
+    },
+
+    // POST /servicos/:id/atualizar (Salva as alterações)
+    async update(req, res) {
+        try {
+            const { id } = req.params;
+            const { nome, duracaoMin, preco } = req.body;
+
+            await Servico.update(
+                { nome, duracaoMin, preco },
+                { where: { id } }
+            );
+
+            return res.redirect('/servicos');
+        } catch (error) {
+            console.log(error);
+            return res.redirect('/servicos');
         }
     },
 

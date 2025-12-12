@@ -24,6 +24,17 @@
             cursor: pointer;
         }
         .btn-del:hover { background: #c82333; }
+
+        /* Estilo simples para o botão editar caso o CSS global falhe */
+        .btn-edit {
+            background-color: #f39c12;
+            color: white;
+            padding: 5px 10px; 
+            border-radius: 4px; 
+            text-decoration: none;
+            font-size: 13.33px;
+        }
+        .btn-edit:hover { background-color: #e67e22; }
     </style>
 </head>
 <body>
@@ -44,7 +55,7 @@
                 <th>Preço</th>
                 
                 <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
-                    <th>Ações</th> 
+                    <th style="text-align: center;">Ações</th> 
                 <% } %>
             </tr>
         </thead>
@@ -57,7 +68,10 @@
                         <td>R$ <%= servico.preco %></td>
                         
                         <% if (typeof isAdmin !== 'undefined' && isAdmin) { %>
-                            <td>
+                            <td style="display: flex; gap: 5px; justify-content: center;">
+                                
+                                <a href="/servicos/<%= servico.id %>/editar" class="btn-edit">Editar</a>
+
                                 <form action="/servicos/<%= servico.id %>/deletar" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este serviço?');">
                                     <button type="submit" class="btn-del">Excluir</button>
                                 </form>

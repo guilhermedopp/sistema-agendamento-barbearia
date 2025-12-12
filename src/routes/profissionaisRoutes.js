@@ -12,9 +12,10 @@ const adminAuth = require('../middlewares/adminAuth');
 
 router.get('/', auth, ProfissionalController.index);
 router.get('/criar', auth, adminAuth, ProfissionalController.create);
+router.get('/:id/editar', auth, adminAuth, ProfissionalController.edit);
 
 router.post('/', auth, adminAuth, ProfissionalController.store);
-// Rota para deletar
+router.post('/:id/atualizar', auth, adminAuth, ProfissionalController.update);
 router.post('/:id/deletar', auth, adminAuth, ProfissionalController.destroy);
 
 module.exports = router;

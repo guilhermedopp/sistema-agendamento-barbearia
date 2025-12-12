@@ -97,7 +97,7 @@
         .status-cancelado { background-color: #f8d7da; color: #721c24; }
 
         /* --- Botões de Ação na Tabela (Sem Emojis) --- */
-        .btn-action-group { display: flex; gap: 5px; justify-content: center; }
+        .btn-action-group { display: flex; gap: 5px; justify-content: center; align-items: center; }
         .btn-action {
             cursor: pointer;
             border: none;
@@ -113,6 +113,10 @@
         
         .btn-cancel { background-color: #dc3545; }
         .btn-cancel:hover { background-color: #c82333; }
+
+        /* Botão de Editar (Estilo Específico) */
+        .btn-edit { background-color: #007bff; text-decoration: none; display: inline-block; }
+        .btn-edit:hover { background-color: #0056b3; }
     </style>
 </head>
 <body>
@@ -210,6 +214,8 @@
                                 <form action="/agendamentos/<%= a.id %>/concluir" method="POST" style="display:inline;">
                                     <button class="btn-action btn-check" title="Marcar como Realizado">Concluir</button>
                                 </form>
+
+                                <a href="/agendamentos/<%= a.id %>/editar" class="btn-action btn-edit" title="Editar Agendamento">Editar</a>
 
                                 <form action="/agendamentos/<%= a.id %>/cancelar" method="POST" style="display:inline;">
                                     <button class="btn-action btn-cancel" title="Cancelar Agendamento">Cancelar</button>
