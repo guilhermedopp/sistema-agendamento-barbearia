@@ -122,6 +122,3 @@ Certifique-se de ter o **Node.js** e o **Git** instalados em sua máquina.
 -----
 
 *Projeto desenvolvido para a disciplina de Programação WEB.*
-
-```
-```
